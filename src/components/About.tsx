@@ -1,11 +1,53 @@
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 import mariaPortrait from '@/assets/maria-portrait.jpg';
 
 const About = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  };
+
   return (
-    <section id="about" className="py-20 md:py-32 bg-secondary">
-      <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="order-2 md:order-1 space-y-6 animate-fade-in">
+    <section id="about" className="py-20 md:py-32 bg-secondary relative overflow-hidden">
+      {/* Animated background pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <motion.div 
+          ref={ref}
+          className="grid md:grid-cols-2 gap-12 items-center"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          <motion.div className="order-2 md:order-1 space-y-6" variants={itemVariants}>
             <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
               Who am I?
             </h2>
@@ -58,19 +100,49 @@ const About = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="order-1 md:order-2 flex justify-center animate-slide-up">
+          <motion.div 
+            className="order-1 md:order-2 flex justify-center"
+            variants={itemVariants}
+          >
             <div className="relative">
-              <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
-              <img
-                src={mariaPortrait}
-                alt="Maria Bano - AI/ML Engineer"
-                className="relative rounded-2xl shadow-card w-full max-w-md object-cover aspect-square"
+              {/* Rotating border effect */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur-xl opacity-50"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              />
+              
+              {/* Floating animation */}
+              <motion.div
+                animate={{ y: [0, -20, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="relative"
+              >
+                <motion.img
+                  src={mariaPortrait}
+                  alt="Maria Bano - AI/ML Engineer"
+                  className="relative rounded-2xl shadow-card w-full max-w-md object-cover aspect-square border-2 border-primary/30"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
+
+              {/* Animated accent circles */}
+              <motion.div
+                className="absolute -top-4 -right-4 w-24 h-24 rounded-full bg-primary/20 blur-2xl"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute -bottom-4 -left-4 w-32 h-32 rounded-full bg-accent/20 blur-2xl"
+                animate={{ scale: [1.2, 1, 1.2], opacity: [0.5, 0.3, 0.5] }}
+                transition={{ duration: 4, repeat: Infinity }}
               />
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
