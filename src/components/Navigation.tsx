@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import logo from '@/assets/auratech-logo.png';
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -63,15 +64,24 @@ const Navigation = () => {
   }} className={`fixed top-0 left-0 right-0 z-50 transition-smooth ${isScrolled ? 'bg-background/95 backdrop-blur-lg shadow-card' : 'bg-transparent'}`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <motion.a href="#hero" onClick={e => {
-          e.preventDefault();
-          scrollToSection('#hero');
-        }} className="text-2xl font-display font-bold text-primary" whileHover={{
-          scale: 1.05
-        }} whileTap={{
-          scale: 0.95
-        }}>
-            ​AuraTech 
+          <motion.a 
+            href="#hero" 
+            onClick={e => {
+              e.preventDefault();
+              scrollToSection('#hero');
+            }} 
+            className="flex items-center gap-3 text-2xl font-display font-bold text-primary" 
+            whileHover={{ scale: 1.05 }} 
+            whileTap={{ scale: 0.95 }}
+          >
+            <motion.img 
+              src={logo} 
+              alt="AuraTech Logo" 
+              className="h-10 w-10 object-contain"
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.6 }}
+            />
+            <span>AuraTech</span>
           </motion.a>
 
           {/* Desktop Navigation */}
