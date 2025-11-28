@@ -6,9 +6,6 @@ const Footer = () => {
           <p className="text-sm">
             © {new Date().getFullYear()} Maria Bano. All rights reserved.
           </p>
-          <p className="text-xs mt-2">
-            Built with passion for AI/ML and elegant design
-          </p>
         </div>
       </div>
     </footer>
